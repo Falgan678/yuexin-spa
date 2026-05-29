@@ -1,0 +1,10 @@
+fastapi>=0.111,<1.0
+uvicorn[standard]>=0.30,<1.0
+pydantic>=2.7,<3.0
+python-multipart>=0.0.9,<1.0
+# 仅在 DB_BACKEND=mysql 时需要
+pymysql>=1.1,<2.0
+# 推荐启用：管理员密码 bcrypt 哈希
+bcrypt>=4.1,<5.0
+# 文件上传安全：图片重编码，剥离 EXIF / 阻断 SVG/HTML 注入
+Pillow>=10.3,<12.0

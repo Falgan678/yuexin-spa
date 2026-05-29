@@ -1,0 +1,50 @@
+{
+  "name": "悦心养生馆",
+  "short_name": "悦心养生",
+  "description": "中式调理 / 泰式 SPA / 芳疗护理 / 足疗保健 · 让身心回归自然",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0F766E",
+  "background_color": "#FFFDF8",
+  "categories": ["health", "lifestyle", "wellness"],
+  "icons": [
+    {
+      "src": "/static/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "立即预约",
+      "short_name": "预约",
+      "description": "快速进入预约入口",
+      "url": "/#services",
+      "icons": [{ "src": "/static/assets/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "联系我们",
+      "short_name": "联系",
+      "description": "查看门店地址与电话",
+      "url": "/#contact",
+      "icons": [{ "src": "/static/assets/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>悦心养生馆 - 管理后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 优惠活动 · 共享设计 Token（与首页同源，确保前后端配色一致） -->
+    <link rel="stylesheet" href="offer-tokens.css?v=20260528-3">
+    <link rel="stylesheet" href="admin-style.css?v=20260528-3">
+</head>
+<body class="bg-gray-50">
+
+    <!-- ============== 登录页 ============== -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                <i class="fas fa-spa"></i>
+                <h1>悦心养生馆 · 管理后台</h1>
+                <p>请使用管理员账号登录</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="login-field">
+                    <label for="loginUsername">用户名</label>
+                    <input id="loginUsername" type="text" autocomplete="username" required placeholder="admin">
+                </div>
+                <div class="login-field">
+                    <label for="loginPassword">密码</label>
+                    <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
+                </div>
+                <div id="loginError" class="login-error hidden"></div>
+                <button type="submit" id="loginSubmit">
+                    <i class="fas fa-arrow-right-to-bracket mr-2"></i>登录
+                </button>
+                <p class="login-tip">请使用 <code>.env</code> 中配置的管理员账号登录</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============== 主界面 ============== -->
+    <div id="adminApp" class="hidden">
+
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="admin-topbar flex justify-between items-center h-16 gap-3">
+                <div class="admin-topbar__brand flex items-center min-w-0">
+                    <i class="fas fa-spa text-emerald-600 text-2xl mr-3 shrink-0"></i>
+                    <h1 class="text-xl font-bold text-gray-800 truncate">悦心养生馆 · 管理后台</h1>
+                    <!-- 当前登录用户信息（显示名 + 角色徽章），动态渲染 -->
+                    <div id="navUser" class="user-chip is-loading ml-4 hidden md:inline-flex" role="group" aria-label="当前登录用户" aria-live="polite">
+                        <span class="user-chip__avatar" aria-hidden="true">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span class="user-chip__meta">
+                            <span class="user-chip__name" data-bind="display-name" title="">
+                                <span class="user-chip__skeleton" aria-hidden="true"></span>
+                            </span>
+                            <span class="role-badge role-badge--unknown" data-bind="role-badge" data-role="unknown">
+                                <i class="role-badge__icon fas fa-circle-notch fa-spin" aria-hidden="true"></i>
+                                <span class="role-badge__text">加载中</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="admin-topbar__actions flex items-center space-x-3 shrink-0">
+                    <button id="refreshBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-sync-alt mr-2"></i>刷新
+                    </button>
+                    <button type="button" id="auditBtn"
+                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                            title="操作审计日志">
+                        <i class="fas fa-clipboard-list mr-2"></i>审计
+                    </button>
+                    <button id="userMgmtBtn" class="hidden px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                            title="人员权限管理">
+                        <i class="fas fa-users-cog mr-2"></i>权限
+                    </button>
+                    <button id="changePwdBtn" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700"
+                            title="修改密码">
+                        <i class="fas fa-key mr-2"></i>密码
+                    </button>
+                    <a href="/static/index.html" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                        <i class="fas fa-home mr-2"></i>首页
+                    </a>
+                    <button id="logoutBtn" class="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700">
+                        <i class="fas fa-right-from-bracket mr-2"></i>退出
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="stat-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white cursor-pointer" data-stat-type="visits">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100 text-sm mb-1">总访问量</p>
+                        <p id="totalVisits" class="text-3xl font-bold">-</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4"><i class="fas fa-eye text-2xl"></i></div>
+                </div>
+                <p class="text-blue-100 text-xs mt-2">点击查看详情</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-6 text-white cursor-pointer" data-stat-type="visitors">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-emerald-100 text-sm mb-1">独立访客</p>
+                        <p id="uniqueVisitors" class="text-3xl font-bold">-</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4"><i class="fas fa-users text-2xl"></i></div>
+                </div>
+                <p class="text-emerald-100 text-xs mt-2">点击查看详情</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white cursor-pointer" data-stat-type="bookings">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100 text-sm mb-1">总预约数</p>
+                        <p id="totalBookings" class="text-3xl font-bold">-</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4"><i class="fas fa-calendar-check text-2xl"></i></div>
+                </div>
+                <p class="text-purple-100 text-xs mt-2">点击查看详情</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white cursor-pointer" data-stat-type="conversion">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-orange-100 text-sm mb-1">转化率</p>
+                        <p id="conversionRate" class="text-3xl font-bold">-</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4"><i class="fas fa-chart-line text-2xl"></i></div>
+                </div>
+                <p class="text-orange-100 text-xs mt-2">点击查看详情</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl shadow-lg p-6 text-white cursor-pointer" data-stat-type="favorites">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-rose-100 text-sm mb-1">总收藏数</p>
+                        <p id="totalFavorites" class="text-3xl font-bold">-</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4"><i class="fas fa-heart text-2xl"></i></div>
+                </div>
+                <p class="text-rose-100 text-xs mt-2">点击查看详情</p>
+            </div>
+        </div>
+
+        <!-- 筛选区域 -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-filter text-emerald-600 mr-2"></i>多维度筛选
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">关键字搜索</label>
+                    <input type="text" id="phoneSearch" placeholder="姓名 / 手机号"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">服务分类</label>
+                    <select id="categoryFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="">全部分类</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">具体项目</label>
+                    <select id="serviceFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="">全部项目</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">预约状态</label>
+                    <select id="statusFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="">全部状态</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">来源 / 套餐</label>
+                    <select id="sourceFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="">全部来源</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">日期范围</label>
+                    <select id="dateFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="7">最近 7 天</option>
+                        <option value="30">最近 30 天</option>
+                        <option value="90">最近 90 天</option>
+                        <option value="365">最近 1 年</option>
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end space-x-3">
+                <button id="resetFilterBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                    <i class="fas fa-redo mr-2"></i>重置
+                </button>
+                <button id="searchBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                    <i class="fas fa-search mr-2"></i>搜索
+                </button>
+            </div>
+        </div>
+
+        <!-- 预约列表 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-list text-emerald-600 mr-2"></i>预约列表
+                </h2>
+                <button id="exportBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-download mr-2"></i>导出 CSV
+                </button>
+            </div>
+
+            <div id="loadingState" class="p-12 text-center">
+                <i class="fas fa-spinner fa-spin text-4xl text-emerald-600 mb-4"></i>
+                <p class="text-gray-600">加载中...</p>
+            </div>
+
+            <div id="emptyState" class="p-12 text-center hidden">
+                <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-600 text-lg">暂无预约记录</p>
+            </div>
+
+            <div id="tableContainer" class="overflow-x-auto hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">姓名</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">手机号</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">分类</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">服务项目</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">来源</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">预约时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">备注</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">创建时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+
+            <div id="paginationContainer" class="px-6 py-4 border-t border-gray-200 flex items-center justify-between hidden">
+                <div class="text-sm text-gray-700">共 <span id="totalCount" class="font-medium">0</span> 条</div>
+                <div class="flex space-x-2">
+                    <button id="prevPageBtn" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="pageInfo" class="px-4 py-2 text-gray-700">第 1 页</span>
+                    <button id="nextPageBtn" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 业务统计 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-fire text-orange-600 mr-2"></i>实际预约 · 项目热度
+                </h2>
+                <div id="bookingByService" class="space-y-3"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-chart-pie text-purple-600 mr-2"></i>来源 / 套餐
+                </h2>
+                <div id="bookingBySource" class="space-y-3"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-layer-group text-emerald-600 mr-2"></i>分类热度
+                </h2>
+                <div id="bookingByCategory" class="space-y-3"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-clipboard-list text-blue-600 mr-2"></i>状态分布
+                </h2>
+                <div id="bookingByStatus" class="space-y-3"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-md p-6 lg:col-span-2">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-heart text-rose-600 mr-2"></i>收藏热度 TOP（点击图标即收藏）
+                </h2>
+                <div id="popularFavorites" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- ============== 服务项目管理 ============== -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+            <div class="p-6 border-b border-gray-200 flex flex-wrap gap-3 justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-spa text-emerald-600 mr-2"></i>服务项目管理
+                </h2>
+                <div class="flex gap-2 items-center flex-wrap">
+                    <input id="svcSearch" type="text" placeholder="搜索 ID / 名称"
+                           class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm" />
+                    <select id="svcCategoryFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm">
+                        <option value="">全部分类</option>
+                    </select>
+                    <select id="svcTagFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm">
+                        <option value="">全部标签</option>
+                    </select>
+                    <select id="svcActiveFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm">
+                        <option value="">全部状态</option>
+                        <option value="1">已上架</option>
+                        <option value="0">已下架</option>
+                    </select>
+                    <button id="svcSearchBtn" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm">
+                        <i class="fas fa-search mr-1"></i>搜索
+                    </button>
+                    <button id="svcAddBtn" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                        <i class="fas fa-plus mr-1"></i>新增项目
+                    </button>
+                </div>
+            </div>
+            <div id="svcTableWrap" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">图片</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">名称</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">分类</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">时长</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">价格</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">标签</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">创建时间</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="svcTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+            <div id="svcEmpty" class="hidden p-12 text-center text-gray-500">
+                <i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i>
+                <p>暂无服务项目</p>
+            </div>
+            <div id="svcPagination" class="px-6 py-4 border-t border-gray-200 flex items-center justify-between hidden">
+                <div class="text-sm text-gray-700">共 <span id="svcTotal" class="font-medium">0</span> 项</div>
+                <div class="flex gap-2 items-center">
+                    <button id="svcPrev" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 text-sm">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="svcPageInfo" class="px-3 text-sm text-gray-600">第 1 页</span>
+                    <button id="svcNext" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 text-sm">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============== 优惠活动管理 ============== -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+            <div class="p-6 border-b border-gray-200 flex flex-wrap gap-3 justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-tags text-rose-600 mr-2"></i>优惠活动管理
+                </h2>
+                <div class="flex gap-2 items-center flex-wrap">
+                    <button id="offerRefreshBtn" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                        <i class="fas fa-sync-alt mr-1"></i>刷新
+                    </button>
+                    <a href="/static/index.html#offers" target="_blank"
+                       class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm">
+                        <i class="fas fa-up-right-from-square mr-1"></i>预览首页
+                    </a>
+                    <button id="offerAddBtn" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                        <i class="fas fa-plus mr-1"></i>新增优惠
+                    </button>
+                </div>
+            </div>
+
+            <!-- 卡片预览（与首页样式一致，便于所见即所得） -->
+            <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <p class="text-xs text-gray-500 mb-3">
+                    <i class="fas fa-circle-info mr-1"></i>
+                    预览（按当前列表排序，仅展示已上架卡片，与首页 #offers 同步）
+                </p>
+                <div id="offerPreviewGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+
+            <div id="offerTableWrap" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">排序</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">图标</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">活动名称</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">价格</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">原价 / 文案</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">主题</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">来源</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">按钮</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="offerTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+            <div id="offerEmpty" class="hidden p-12 text-center text-gray-500">
+                <i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i>
+                <p>暂无优惠活动，点击右上角"新增优惠"开始配置</p>
+            </div>
+        </div>
+
+        <!-- ============== 环境展示管理 ============== -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+            <div class="p-6 border-b border-gray-200 flex flex-wrap gap-3 justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-image text-emerald-600 mr-2"></i>环境展示管理
+                </h2>
+                <div class="flex gap-2 items-center flex-wrap">
+                    <button id="envRefreshBtn" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                        <i class="fas fa-sync-alt mr-1"></i>刷新
+                    </button>
+                    <button id="envAddBtn" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                        <i class="fas fa-plus mr-1"></i>新增图片
+                    </button>
+                </div>
+            </div>
+
+            <!-- 顶部文案编辑 -->
+            <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-base font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-feather text-emerald-600 mr-1"></i>板块文案
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">小标题（英文眉批）</label>
+                        <input id="envMetaEyebrow" type="text" maxlength="60" placeholder="ENVIRONMENT"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">主标题</label>
+                        <input id="envMetaTitle" type="text" maxlength="80" placeholder="静谧雅致 · 沉浸空间"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">副标题描述</label>
+                        <input id="envMetaSubtitle" type="text" maxlength="200" placeholder="每一处细节都为您的身心松弛而设计"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+                <div class="mt-3 flex justify-end">
+                    <button id="envMetaSaveBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                        <i class="fas fa-save mr-1"></i>保存文案
+                    </button>
+                </div>
+            </div>
+
+            <!-- 轮播停留时间设置 -->
+            <div class="p-6 border-b border-gray-200 bg-amber-50/40">
+                <h3 class="text-base font-semibold text-gray-700 mb-3">
+                    <i class="far fa-clock text-amber-600 mr-1"></i>轮播停留时间
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">
+                            全局默认（毫秒）<span class="text-xs text-gray-400">500 ~ 60000</span>
+                        </label>
+                        <div class="flex gap-2">
+                            <input id="envAutoplayMs" type="number" min="500" max="60000" step="100" placeholder="4500"
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500" />
+                            <button id="envAutoplaySaveBtn"
+                                    class="px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm whitespace-nowrap">
+                                <i class="fas fa-save mr-1"></i>保存
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">未单独设置停留时间的图片，按此值轮播。</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">
+                            批量应用到所有图（毫秒，0=用全局）
+                        </label>
+                        <div class="flex gap-2">
+                            <input id="envBatchDuration" type="number" min="0" max="60000" step="100" placeholder="如 6000 或 0"
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500" />
+                            <button id="envBatchApplyBtn"
+                                    class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm whitespace-nowrap">
+                                <i class="fas fa-bolt mr-1"></i>批量应用
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">将该值写入"全部图片"的独立停留时间。0 = 清除独立设置改用全局。</p>
+                    </div>
+                    <div class="text-sm text-gray-600 leading-relaxed bg-white border border-amber-200 rounded-lg p-3">
+                        <div class="font-medium text-gray-800 mb-1">
+                            <i class="fas fa-info-circle text-amber-500 mr-1"></i>使用规则
+                        </div>
+                        <div>每张图片可在编辑弹窗里设独立停留时间。<br/>独立 &gt; 0 时优先；为 0 则用上方"全局默认"。</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片卡片网格 -->
+            <div id="envCardsWrap" class="p-6">
+                <div id="envCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+                <div id="envEmpty" class="hidden p-12 text-center text-gray-500">
+                    <i class="fas fa-images text-5xl text-gray-300 mb-3"></i>
+                    <p>暂无环境图片，点击右上角"新增图片"开始添加</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============== 医生管理 ============== -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+            <div class="p-6 border-b border-gray-200 flex flex-wrap gap-3 justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-user-md text-emerald-600 mr-2"></i>医生管理
+                </h2>
+                <div class="flex gap-2 items-center flex-wrap">
+                    <button id="doctorRefreshBtn" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                        <i class="fas fa-sync-alt mr-1"></i>刷新
+                    </button>
+                    <button id="doctorAddBtn" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                        <i class="fas fa-plus mr-1"></i>新增医生
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div id="doctorCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+                <div id="doctorEmpty" class="hidden p-12 text-center text-gray-500">
+                    <i class="fas fa-user-md text-5xl text-gray-300 mb-3"></i>
+                    <p>暂无医生，点击右上角"新增医生"开始添加</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============== 联系我们管理 ============== -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+            <div class="p-6 border-b border-gray-200 flex flex-wrap gap-3 justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-address-card text-emerald-600 mr-2"></i>联系我们管理
+                </h2>
+                <div class="flex gap-3 items-center">
+                    <input id="settingSearch" type="text" placeholder="搜索 key / 标签 / 内容"
+                           class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    <button id="settingSearchBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                        <i class="fas fa-search mr-1"></i>搜索
+                    </button>
+                    <button id="settingAddBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-plus mr-1"></i>新增
+                    </button>
+                    <button id="settingRefreshBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-sync-alt mr-1"></i>刷新
+                    </button>
+                </div>
+            </div>
+            <div id="settingTableWrap" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">排序</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">标签</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Key</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">类型</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">内容</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">图标</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">来源</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">更新时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="settingTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+            <div id="settingEmpty" class="hidden p-12 text-center text-gray-500">
+                <i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i>
+                <p>暂无配置项</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============== 审计日志 · 内置面板（默认隐藏） ============== -->
+    <div id="auditPanel" class="hidden fixed inset-0 z-[60]">
+        <div id="auditPanel-mask" class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="absolute inset-0 flex items-stretch justify-center p-0 sm:p-6">
+            <div class="bg-white rounded-none sm:rounded-2xl shadow-2xl w-full max-w-7xl flex flex-col overflow-hidden">
+
+                <!-- Header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white">
+                    <h2 class="text-lg font-bold flex items-center gap-2">
+                        <i class="fas fa-clipboard-list"></i>
+                        操作审计日志
+                    </h2>
+                    <button id="auditPanel-close" class="text-white/90 hover:text-white text-xl"
+                            aria-label="关闭" title="关闭 (Esc)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Toolbar -->
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 items-end">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">操作人</label>
+                        <input id="auditPanel-actor" type="text" maxlength="80" placeholder="用户名"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">资源</label>
+                        <select id="auditPanel-resource"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option value="">全部</option>
+                            <option value="booking">预约</option>
+                            <option value="service">服务</option>
+                            <option value="offer">优惠</option>
+                            <option value="doctor">医生</option>
+                            <option value="environment">环境</option>
+                            <option value="category">分类</option>
+                            <option value="tag">标签</option>
+                            <option value="setting">设置</option>
+                            <option value="admin">登录</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">动作</label>
+                        <select id="auditPanel-action"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option value="">全部</option>
+                            <option value="create">create</option>
+                            <option value="update">update</option>
+                            <option value="delete">delete</option>
+                            <option value="status_update">status_update</option>
+                            <option value="note_update">note_update</option>
+                            <option value="login">login</option>
+                            <option value="login_failed">login_failed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">资源 ID</label>
+                        <input id="auditPanel-rid" type="text" maxlength="64" placeholder="精确"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">起始时间</label>
+                        <input id="auditPanel-start" type="datetime-local"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">结束时间</label>
+                        <input id="auditPanel-end" type="datetime-local"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div class="flex items-end gap-2">
+                        <button id="auditPanel-search"
+                                class="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm">
+                            <i class="fas fa-search mr-1"></i>查询
+                        </button>
+                        <button id="auditPanel-reset"
+                                class="px-3 py-2 border border-gray-300 hover:bg-gray-100 rounded-lg text-sm">
+                            重置
+                        </button>
+                        <button id="auditPanel-export"
+                                class="px-3 py-2 border border-gray-300 hover:bg-gray-100 rounded-lg text-sm"
+                                title="按当前条件导出 CSV">
+                            <i class="fas fa-file-csv"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="px-6 py-2 text-sm text-gray-600 border-b border-gray-100 bg-white" id="auditPanel-stats">共 0 条</div>
+
+                <!-- Table -->
+                <div class="flex-1 overflow-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 sticky top-0 z-10">
+                            <tr class="text-left text-xs text-gray-600 uppercase tracking-wider">
+                                <th class="px-3 py-2 whitespace-nowrap">时间</th>
+                                <th class="px-3 py-2">操作人</th>
+                                <th class="px-3 py-2">动作</th>
+                                <th class="px-3 py-2">资源</th>
+                                <th class="px-3 py-2">说明</th>
+                                <th class="px-3 py-2">变更</th>
+                                <th class="px-3 py-2">IP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditPanel-tbody">
+                            <tr><td colspan="7" class="px-4 py-10 text-center text-gray-400">加载中…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-center items-center gap-3 px-6 py-3 border-t border-gray-100 bg-gray-50">
+                    <button id="auditPanel-prev"
+                            class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fas fa-chevron-left mr-1"></i>上一页
+                    </button>
+                    <span id="auditPanel-info" class="text-sm text-gray-600">第 1 页</span>
+                    <button id="auditPanel-next"
+                            class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed">
+                        下一页<i class="fas fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 服务项目编辑/新增弹窗 ============== -->
+    <div id="svcModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[92vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 id="svcModalTitle" class="text-xl font-bold text-gray-800">编辑服务项目</h3>
+                <button id="closeSvcBtn" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">项目 ID <span class="text-red-500">*</span></label>
+                        <input id="svcId" type="text" maxlength="40" placeholder="如 s-cn-1（仅字母数字-_，2-40 位）"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">项目名称 <span class="text-red-500">*</span></label>
+                        <input id="svcName" type="text" maxlength="50" placeholder="如：经络推拿"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">副标题</label>
+                        <input id="svcSubtitle" type="text" maxlength="120" placeholder="如：传统手法 · 疏通经络"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">分类 <span class="text-red-500">*</span></label>
+                        <div id="svcCategoryCombo" class="combo">
+                            <button type="button" id="svcCategoryToggle" class="combo-toggle">
+                                <span id="svcCategoryLabel" class="combo-label text-gray-400">请选择</span>
+                                <i class="fas fa-chevron-down combo-caret"></i>
+                            </button>
+                            <div id="svcCategoryPanel" class="combo-panel hidden">
+                                <div class="combo-search">
+                                    <input id="svcCategorySearch" type="text" placeholder="搜索或输入新分类名称…" maxlength="20" autocomplete="off" />
+                                </div>
+                                <ul id="svcCategoryList" class="combo-list" role="listbox"></ul>
+                                <div id="svcCategoryAddRow" class="combo-add hidden">
+                                    <i class="fas fa-plus mr-1"></i><span>新增分类 "<span id="svcCategoryAddText"></span>"</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="svcCategory" value="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">封面图 <span class="text-red-500">*</span></label>
+                    <div class="flex items-start gap-4">
+                        <div id="svcImagePreview" class="w-40 h-28 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <i class="fas fa-image text-3xl text-gray-300"></i>
+                        </div>
+                        <div class="flex-1 space-y-2">
+                            <input id="svcImage" type="text" maxlength="500" placeholder="图片 URL（或点击下方按钮上传）"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm" />
+                            <div class="flex gap-2 items-center">
+                                <input id="svcImageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden" />
+                                <button id="svcImageUploadBtn" type="button"
+                                        class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                                    <i class="fas fa-upload mr-1"></i>上传图片
+                                </button>
+                                <span class="text-xs text-gray-500">仅支持 jpg / png / webp / gif，≤ 5MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">时长（分钟）<span class="text-red-500">*</span></label>
+                        <input id="svcDuration" type="number" min="10" max="300" value="60"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">现价（¥）<span class="text-red-500">*</span></label>
+                        <input id="svcPrice" type="number" min="1" max="99999" value="198"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">原价（¥）</label>
+                        <input id="svcOriginalPrice" type="number" min="0" max="99999" value="0"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">人气（0-100）</label>
+                        <input id="svcPopularity" type="number" min="0" max="100" value="50"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">标签（多选，可自定义新增）</label>
+                    <div id="svcTags" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">疗效特点（每行一项，最多 10 条）</label>
+                    <textarea id="svcEffects" rows="3" maxlength="500" placeholder="疏通经络&#10;缓解肌肉疲劳&#10;改善血液循环"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">适合人群</label>
+                    <input id="svcSuitableFor" type="text" maxlength="120" placeholder="如：久坐人群、肩颈僵硬"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">项目介绍</label>
+                    <textarea id="svcDescription" rows="4" maxlength="1000"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">项目咨询电话（可空）</label>
+                        <input id="svcContactPhone" type="text" maxlength="40" placeholder="不填则使用门店统一电话"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">排序（数字越小越靠前）</label>
+                        <input id="svcSortOrder" type="number" min="0" max="9999" value="100"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input id="svcIsActive" type="checkbox" class="w-4 h-4" checked />
+                    <label for="svcIsActive" class="text-sm text-gray-700">上架（取消勾选则不在客户端显示）</label>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <button id="cancelSvcBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmSvcBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-save mr-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 优惠活动编辑/新增弹窗 ============== -->
+    <div id="offerModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[92vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 id="offerModalTitle" class="text-xl font-bold text-gray-800">编辑优惠活动</h3>
+                <button id="closeOfferBtn" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 space-y-5">
+                <input type="hidden" id="offerId" value="" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            活动 Key <span class="text-red-500">*</span>
+                            <span class="text-xs text-gray-400 font-normal ml-1">（小写字母开头，仅字母数字下划线，2-40 位）</span>
+                        </label>
+                        <input id="offerKey" type="text" maxlength="40" placeholder="如 new_customer / member / promo_summer"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                        <p class="text-xs text-gray-400 mt-1">已存在则不能修改，新建时唯一。</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">活动名称 <span class="text-red-500">*</span></label>
+                        <input id="offerName" type="text" maxlength="50" placeholder="如：新客体验价"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">主图标（FontAwesome）</label>
+                        <input id="offerIcon" type="text" maxlength="40" placeholder="如 fa-gift / fa-crown / fa-heart"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                        <p class="text-xs text-gray-400 mt-1">可在 fontawesome.com/icons 选择，仅填 fa-xxx 部分</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">主题样式</label>
+                        <select id="offerTheme" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <option value="offer-1">绿松石 · 清新（offer-1）</option>
+                            <option value="offer-2">琥珀金 · 尊贵（offer-2）</option>
+                            <option value="offer-3">紫粉 · 浪漫（offer-3）</option>
+                            <option value="offer-4">鼠尾草 · 自然（offer-4）</option>
+                            <option value="offer-5">暮霞橙 · 活力（offer-5）</option>
+                            <option value="offer-6">海湾蓝 · 宁静（offer-6）</option>
+                            <option value="offer-7">樱花粉 · 柔美（offer-7）</option>
+                            <option value="offer-8">玉墨 · 禅意（offer-8）</option>
+                            <option value="offer-9">蜜桃乳 · 温柔（offer-9）</option>
+                            <option value="offer-10">薄荷青 · 轻盈（offer-10）</option>
+                            <option value="offer-11">紫晶 · 治愈（offer-11）</option>
+                            <option value="offer-12">暖阳金 · 焕新（offer-12）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">来源（source）</label>
+                        <select id="offerSource" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <option value="new_customer">新客体验价</option>
+                            <option value="member">会员套餐</option>
+                            <option value="couple_package">双人套餐</option>
+                            <option value="flash_sale">限时秒杀</option>
+                            <option value="promo">其他优惠抢购</option>
+                        </select>
+                        <p class="text-xs text-gray-400 mt-1">用于预约统计归因</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">主价格 <span class="text-red-500">*</span></label>
+                        <input id="offerPrice" type="text" maxlength="40" placeholder="如：¥99"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">原价 / 副文案</label>
+                        <input id="offerOriginalPrice" type="text" maxlength="80" placeholder="如：原价 ¥198"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">补充文案（可选）</label>
+                        <input id="offerPriceSuffix" type="text" maxlength="120" placeholder="如：10 次卡 · 立省 ¥520"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">活动卖点（每行一项，最多 8 条，每条 ≤ 60 字）</label>
+                    <textarea id="offerFeatures" rows="4" maxlength="700" placeholder="60 分钟经络推拿&#10;赠送养生茶饮&#10;仅限首次到店"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">按钮文案</label>
+                        <input id="offerBtnText" type="text" maxlength="40" placeholder="立即抢购 / 立即办理 / 立即预约"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">排序（数字越小越靠前）</label>
+                        <input id="offerSortOrder" type="number" min="0" max="9999" value="100"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input id="offerIsActive" type="checkbox" class="w-4 h-4" checked />
+                    <label for="offerIsActive" class="text-sm text-gray-700">上架（取消勾选则不在客户端首页显示）</label>
+                </div>
+
+                <!-- 实时预览卡片 -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-dashed border-gray-300">
+                    <p class="text-xs text-gray-500 mb-2"><i class="fas fa-eye mr-1"></i>预览效果</p>
+                    <div id="offerLivePreview" class="max-w-xs"></div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <button id="cancelOfferBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmOfferBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-save mr-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 环境图片编辑/新增弹窗 ============== -->
+    <div id="envModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[92vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 id="envModalTitle" class="text-xl font-bold text-gray-800">编辑环境图片</h3>
+                <button id="closeEnvBtn" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 space-y-5">
+                <input type="hidden" id="envEditingId" />
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">环境图片 <span class="text-red-500">*</span></label>
+                    <div class="flex items-start gap-4">
+                        <div id="envImagePreview" class="w-44 h-32 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <i class="fas fa-image text-3xl text-gray-300"></i>
+                        </div>
+                        <div class="flex-1 space-y-2">
+                            <input id="envImage" type="text" maxlength="500" placeholder="图片 URL（或点击下方按钮上传）"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm" />
+                            <div class="flex gap-2 items-center">
+                                <input id="envImageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden" />
+                                <button id="envImageUploadBtn" type="button"
+                                        class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                                    <i class="fas fa-upload mr-1"></i>上传图片
+                                </button>
+                                <span class="text-xs text-gray-500">仅支持 jpg / png / webp / gif，≤ 5MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">图片标题</label>
+                        <input id="envTitle" type="text" maxlength="80" placeholder="如：明亮护理空间"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">无障碍 alt 文本</label>
+                        <input id="envAlt" type="text" maxlength="200" placeholder="留空将使用标题"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">描述文案</label>
+                    <textarea id="envDescription" rows="3" maxlength="300"
+                              placeholder="对该环境空间的简短描述（前端鼠标悬停时显示）"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">展示尺寸</label>
+                        <select id="envSize" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <option value="small">小图（紧凑卡片）</option>
+                            <option value="medium" selected>中图（默认）</option>
+                            <option value="large">大图（突出展示）</option>
+                            <option value="tall">高图（竖向）</option>
+                            <option value="wide">宽图（横幅）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">排序（越小越靠前）</label>
+                        <input id="envSortOrder" type="number" min="0" max="9999" value="100"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div class="flex items-end">
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-700 pb-2">
+                            <input id="envIsActive" type="checkbox" class="w-4 h-4" checked />
+                            <span>上架（取消勾选则不在前端显示）</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        独立停留时间 <span class="text-xs text-gray-400">毫秒；0 = 用全局默认；500 ~ 60000</span>
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <input id="envDurationMs" type="number" min="0" max="60000" step="100" value="0"
+                               class="w-40 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                        <span class="text-xs text-gray-500">
+                            <i class="far fa-clock mr-1 text-amber-500"></i>
+                            该图片在轮播中的展示时长。设为 0 表示按"环境管理 → 全局默认"。
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <button id="cancelEnvBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmEnvBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-save mr-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 医生编辑/新增弹窗 ============== -->
+    <div id="doctorModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[92vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 id="doctorModalTitle" class="text-xl font-bold text-gray-800">编辑医生</h3>
+                <button id="closeDoctorBtn" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 space-y-5">
+                <input type="hidden" id="doctorEditingId" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">姓名 <span class="text-red-500">*</span></label>
+                        <input id="doctorName" type="text" maxlength="30" placeholder="如：李医生"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">职称 / 专长</label>
+                        <input id="doctorTitle" type="text" maxlength="80" placeholder="如：中医推拿主治医师"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">头像</label>
+                    <div class="flex items-start gap-4">
+                        <div id="doctorAvatarPreview" class="w-24 h-24 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <i class="fas fa-user-md text-3xl text-gray-300"></i>
+                        </div>
+                        <div class="flex-1 space-y-2">
+                            <input id="doctorAvatar" type="text" maxlength="500" placeholder="头像 URL（可空，或点击下方按钮上传）"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm" />
+                            <div class="flex gap-2 items-center">
+                                <input id="doctorAvatarFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden" />
+                                <button id="doctorAvatarUploadBtn" type="button"
+                                        class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                                    <i class="fas fa-upload mr-1"></i>上传头像
+                                </button>
+                                <span class="text-xs text-gray-500">jpg / png / webp / gif，≤ 5MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">简介</label>
+                    <textarea id="doctorBio" rows="3" maxlength="500" placeholder="医生从业经验、擅长领域等"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">排序（越小越靠前）</label>
+                        <input id="doctorSortOrder" type="number" min="0" max="9999" value="100"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    </div>
+                    <div class="flex items-end">
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-700 pb-2">
+                            <input id="doctorIsActive" type="checkbox" class="w-4 h-4" checked />
+                            <span>启用（取消勾选则在预约的医生下拉中隐藏）</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <button id="cancelDoctorBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmDoctorBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-save mr-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 联系方式编辑/新增弹窗 ============== -->
+    <div id="settingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="settingModalTitle" class="text-xl font-bold text-gray-800">编辑联系方式</h3>
+                <button id="closeSettingBtn" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div id="settingFormFields" class="grid grid-cols-1 gap-4"></div>
+                <p id="settingFieldHint" class="text-xs text-gray-500"></p>
+                <div class="flex justify-end space-x-3 pt-2 border-t border-gray-200">
+                    <button id="cancelSettingBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmSettingBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                        <i class="fas fa-save mr-2"></i>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 详情弹窗 ============== -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">预约详情</h3>
+                <button id="closeDetailBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="detailContent" class="p-6"></div>
+        </div>
+    </div>
+
+    <!-- 统计详情弹窗 -->
+    <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="statsModalTitle" class="text-xl font-bold text-gray-800">统计详情</h3>
+                <button id="closeStatsBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="statsContent" class="p-6"></div>
+        </div>
+    </div>
+
+    <!-- 状态修改弹窗 -->
+    <div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">修改预约状态</h3>
+                <button id="closeStatusBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <input type="hidden" id="statusBookingId">
+                <div id="statusOptions" class="space-y-3"></div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="cancelStatusBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmStatusBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 备注编辑弹窗 -->
+    <div id="noteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">编辑备注</h3>
+                <button id="closeNoteBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <input type="hidden" id="noteBookingId">
+                <textarea id="noteTextarea" rows="5" maxlength="500"
+                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                          placeholder="请输入备注信息（最长 500 字）..."></textarea>
+                <div class="mt-2 text-right text-xs text-gray-400"><span id="noteLen">0</span> / 500</div>
+                <div class="mt-4 flex justify-end space-x-3">
+                    <button id="cancelNoteBtn" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">取消</button>
+                    <button id="confirmNoteBtn" class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 修改密码 ============== -->
+    <div id="changePwdModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-key text-amber-600 mr-2"></i>修改密码
+                </h3>
+                <button id="closeChangePwdBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="changePwdForm" class="p-6 space-y-4" autocomplete="off">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">原密码 <span class="text-rose-500">*</span></label>
+                    <input id="cpOld" type="password" autocomplete="current-password" required maxlength="100"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">新密码 <span class="text-rose-500">*</span></label>
+                    <input id="cpNew" type="password" autocomplete="new-password" required minlength="8" maxlength="100"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    <p class="text-xs text-gray-500 mt-1">长度 ≥ 8 位，须至少包含字母、数字、符号中的两类。</p>
+                    <div id="cpStrength" class="text-xs mt-1 hidden"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">确认新密码 <span class="text-rose-500">*</span></label>
+                    <input id="cpConfirm" type="password" autocomplete="new-password" required minlength="8" maxlength="100"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                    <p id="cpMismatch" class="text-xs text-rose-500 mt-1 hidden">两次输入的密码不一致</p>
+                </div>
+                <div id="cpError" class="hidden bg-rose-50 border border-rose-200 text-rose-700 px-4 py-2 rounded-lg text-sm"></div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" id="cpCancel" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                        取消
+                    </button>
+                    <button type="submit" id="cpSubmit" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
+                        <i class="fas fa-check mr-1"></i>确认修改
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============== 人员权限管理 ============== -->
+    <div id="userMgmtModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-6xl w-full mx-4 max-h-[92vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-users-cog text-purple-600 mr-2"></i>人员权限管理
+                </h3>
+                <button id="closeUserMgmtBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Tab 切换：用户 / 角色 -->
+            <div class="px-6 pt-4 border-b border-gray-200 flex gap-6 sticky top-[72px] bg-white z-10">
+                <button class="um-tab py-3 px-2 border-b-2 border-purple-600 text-purple-600 font-medium" data-um-tab="users">
+                    <i class="fas fa-user mr-1"></i>账号列表
+                </button>
+                <button class="um-tab py-3 px-2 border-b-2 border-transparent text-gray-500 hover:text-purple-600" data-um-tab="roles">
+                    <i class="fas fa-id-badge mr-1"></i>角色与权限
+                </button>
+            </div>
+
+            <!-- 账号列表 -->
+            <div id="umTabUsers" class="p-6 um-panel">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-sm text-gray-600">在此创建/管理后台账号，分配角色与启用状态。</p>
+                    <div class="space-x-2">
+                        <button id="umRefreshUsers" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                            <i class="fas fa-sync-alt mr-1"></i>刷新
+                        </button>
+                        <button id="umAddUser" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                            <i class="fas fa-user-plus mr-1"></i>新增账号
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">用户名</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">显示名</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">角色</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">最近登录</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="umUsersBody" class="divide-y divide-gray-200 bg-white"></tbody>
+                    </table>
+                </div>
+                <div id="umUsersEmpty" class="hidden p-8 text-center text-gray-500">
+                    <i class="fas fa-inbox text-4xl mb-2"></i><p>暂无账号</p>
+                </div>
+            </div>
+
+            <!-- 角色列表 -->
+            <div id="umTabRoles" class="p-6 um-panel hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-sm text-gray-600">角色 = 一组权限组合；权限粒度为「模块 × 动作」。</p>
+                    <div class="space-x-2">
+                        <button id="umRefreshRoles" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                            <i class="fas fa-sync-alt mr-1"></i>刷新
+                        </button>
+                        <button id="umAddRole" class="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm">
+                            <i class="fas fa-plus mr-1"></i>新增角色
+                        </button>
+                    </div>
+                </div>
+                <div id="umRolesBody" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div id="umRolesEmpty" class="hidden p-8 text-center text-gray-500">
+                    <i class="fas fa-inbox text-4xl mb-2"></i><p>暂无角色</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== 用户编辑 子弹窗 ============== -->
+    <div id="umUserModal" class="fixed inset-0 bg-black bg-opacity-60 z-[60] hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-5 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="umUserModalTitle" class="text-lg font-bold text-gray-800">新增账号</h3>
+                <button id="umUserClose" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <form id="umUserForm" class="p-5 space-y-3" autocomplete="off">
+                <input type="hidden" id="umUserOriginal" />
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">用户名 <span class="text-rose-500">*</span></label>
+                    <input id="umUserUsername" type="text" required minlength="3" maxlength="32"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                    <p class="text-xs text-gray-500 mt-1">字母/数字/_-./，3~32 位</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">显示名</label>
+                    <input id="umUserDisplay" type="text" maxlength="80"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">角色 <span class="text-rose-500">*</span></label>
+                    <select id="umUserRole" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"></select>
+                </div>
+                <div id="umUserPwdWrap">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        密码 <span id="umUserPwdRequired" class="text-rose-500">*</span>
+                    </label>
+                    <input id="umUserPassword" type="password" autocomplete="new-password" minlength="8" maxlength="100"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                    <p class="text-xs text-gray-500 mt-1"><span id="umUserPwdHint">长度 ≥ 8 位，须至少包含两类字符</span></p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input id="umUserActive" type="checkbox" checked class="rounded text-purple-600" />
+                    <label for="umUserActive" class="text-sm text-gray-700">启用账号</label>
+                </div>
+                <div id="umUserError" class="hidden bg-rose-50 border border-rose-200 text-rose-700 px-3 py-2 rounded-lg text-sm"></div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" id="umUserCancel" class="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm">取消</button>
+                    <button type="submit" class="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm">
+                        <i class="fas fa-check mr-1"></i>保存
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============== 角色编辑 子弹窗 ============== -->
+    <div id="umRoleModal" class="fixed inset-0 bg-black bg-opacity-60 z-[60] hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
+                <h3 id="umRoleModalTitle" class="text-lg font-bold text-gray-800">新增角色</h3>
+                <button id="umRoleClose" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <form id="umRoleForm" class="p-5 space-y-3">
+                <input type="hidden" id="umRoleOriginalKey" />
+                <input type="hidden" id="umRoleBuiltin" value="0" />
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">角色 key <span class="text-rose-500">*</span></label>
+                        <input id="umRoleKey" type="text" required minlength="2" maxlength="31"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                        <p class="text-xs text-gray-500 mt-1">小写字母+数字+下划线</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">权限级别 (1~99)</label>
+                        <input id="umRoleLevel" type="number" min="1" max="99" value="10"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">名称 <span class="text-rose-500">*</span></label>
+                    <input id="umRoleName" type="text" required maxlength="60"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">描述</label>
+                    <input id="umRoleDesc" type="text" maxlength="255"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" />
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-medium text-gray-700">权限分配（模块 × 动作）</label>
+                        <div class="space-x-2 text-xs">
+                            <button type="button" id="umRolePermAll" class="text-purple-600 hover:underline">全选</button>
+                            <button type="button" id="umRolePermNone" class="text-gray-500 hover:underline">清空</button>
+                            <button type="button" id="umRolePermReadOnly" class="text-blue-600 hover:underline">仅查看</button>
+                        </div>
+                    </div>
+                    <div id="umRolePermGrid" class="border border-gray-200 rounded-lg overflow-hidden"></div>
+                </div>
+                <div id="umRoleError" class="hidden bg-rose-50 border border-rose-200 text-rose-700 px-3 py-2 rounded-lg text-sm"></div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" id="umRoleCancel" class="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm">取消</button>
+                    <button type="submit" class="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm">
+                        <i class="fas fa-check mr-1"></i>保存
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div><!-- /#adminApp -->
+
+    <footer class="text-center py-6 text-gray-600">
+        <p>由 <span style="color: #8A2BE2; font-weight: 600;">甘发龙</span> 通过自然语言生成</p>
+    </footer>
+
+    <script type="module" src="admin.js?v=20260528-3"></script>
+    <script type="module" src="modules/user-mgmt.js?v=20260528-3"></script>
+    <script type="module" src="modules/audit-panel.js?v=20260528-2"></script>
+</body>
+</html>

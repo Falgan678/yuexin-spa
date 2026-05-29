@@ -1,0 +1,756 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " 悦心养生馆YUE XIN SPA" [ref=e4] [cursor=pointer]:
+        - /url: "#home"
+        - generic [ref=e5]: 
+        - generic [ref=e6]: 悦心养生馆YUE XIN SPA
+      - generic [ref=e7]:
+        - link "首页" [ref=e8] [cursor=pointer]:
+          - /url: "#home"
+        - link "服务项目" [ref=e9] [cursor=pointer]:
+          - /url: "#services"
+        - link "环境" [ref=e10] [cursor=pointer]:
+          - /url: "#environment"
+        - link "优惠" [ref=e11] [cursor=pointer]:
+          - /url: "#offers"
+        - link "联系我们" [ref=e12] [cursor=pointer]:
+          - /url: "#contact"
+        - link " 立即预约" [ref=e13] [cursor=pointer]:
+          - /url: tel:400-888-8888
+          - generic [ref=e14]: 
+          - text: 立即预约
+      - text: 
+  - generic [ref=e15]:
+    - button "关闭" [ref=e16] [cursor=pointer]:
+      - generic [ref=e17]: 
+    - link "首页" [ref=e18] [cursor=pointer]:
+      - /url: "#home"
+    - link "服务项目" [ref=e19] [cursor=pointer]:
+      - /url: "#services"
+    - link "环境" [ref=e20] [cursor=pointer]:
+      - /url: "#environment"
+    - link "优惠" [ref=e21] [cursor=pointer]:
+      - /url: "#offers"
+    - link "联系我们" [ref=e22] [cursor=pointer]:
+      - /url: "#contact"
+  - banner [ref=e23]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: 
+          - text: 自然养生 · 匠心传承
+        - heading "让身心 回归 自然之境" [level=1] [ref=e28]:
+          - text: 让身心
+          - text: 回归 自然之境
+        - paragraph [ref=e29]: 汇集中式调理、泰式 SPA、芳疗护理与足疗保健，专业技师团队，沉浸式静谧空间，为都市忙碌的你呈现一段专属松弛时光。
+        - generic [ref=e30]:
+          - link " 探索项目" [ref=e31] [cursor=pointer]:
+            - /url: "#services"
+            - generic [ref=e32]: 
+            - text: 探索项目
+          - link " 一键预约" [ref=e33] [cursor=pointer]:
+            - /url: tel:400-888-8888
+            - generic [ref=e34]: 
+            - text: 一键预约
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - strong [ref=e37]: 16+
+            - generic [ref=e38]: 精品养生项目
+          - generic [ref=e39]:
+            - strong [ref=e40]: 10年
+            - generic [ref=e41]: 专业技师团队
+          - generic [ref=e42]:
+            - strong [ref=e43]: 98%
+            - generic [ref=e44]: 顾客复购率
+      - generic [ref=e45]:
+        - img "静谧自然光养生护理室" [ref=e46]
+        - generic [ref=e47]:
+          - generic [ref=e48]: 
+          - generic [ref=e49]:
+            - text: 专业资质认证
+            - text: 持证技师 · 安心放心
+  - generic [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]: SERVICES
+      - heading "精品服务项目" [level=2] [ref=e54]
+      - paragraph [ref=e55]: 四大门类，十六项精选，由资深技师为您量身定制
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]: 
+        - searchbox "搜索项目、功效或人群（如：肩颈、女士、改善睡眠）" [ref=e60]
+      - generic [ref=e61]: 共 16 项
+    - generic [ref=e62]:
+      - button " 全部项目" [ref=e63] [cursor=pointer]:
+        - generic [ref=e64]: 
+        - generic [ref=e65]: 全部项目
+      - button " 中式调理" [ref=e66] [cursor=pointer]:
+        - generic [ref=e67]: 
+        - generic [ref=e68]: 中式调理
+      - button " 泰式 SPA" [ref=e69] [cursor=pointer]:
+        - generic [ref=e70]: 
+        - generic [ref=e71]: 泰式 SPA
+      - button " 芳疗护理" [ref=e72] [cursor=pointer]:
+        - generic [ref=e73]: 
+        - generic [ref=e74]: 芳疗护理
+      - button " 足疗保健" [ref=e75] [cursor=pointer]:
+        - generic [ref=e76]: 
+        - generic [ref=e77]: 足疗保健
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]: 时长
+        - combobox [ref=e81] [cursor=pointer]:
+          - option "全部时长" [selected]
+          - option "30 分钟"
+          - option "60 分钟"
+          - option "90 分钟"
+          - option "120+ 分钟"
+      - generic [ref=e82]:
+        - generic [ref=e83]: 价格
+        - combobox [ref=e84] [cursor=pointer]:
+          - option "全部价格" [selected]
+          - option "¥99 以下"
+          - option "¥99 - ¥199"
+          - option "¥199 - ¥399"
+          - option "¥399 以上"
+      - generic [ref=e85]:
+        - generic [ref=e86]: 排序
+        - combobox [ref=e87] [cursor=pointer]:
+          - option "综合推荐" [selected]
+          - option "人气优先"
+          - option "价格从低到高"
+          - option "价格从高到低"
+          - option "时长从短到长"
+      - button " 重置" [ref=e88] [cursor=pointer]:
+        - generic [ref=e89]: 
+        - text: 重置
+    - generic [ref=e90]:
+      - article [ref=e91] [cursor=pointer]:
+        - generic [ref=e92]:
+          - img "经络推拿" [ref=e93]
+          - button "收藏" [ref=e94]:
+            - generic [ref=e95]: 
+          - generic [ref=e96]:
+            - generic [ref=e97]: 热门
+            - generic [ref=e98]: 主推
+          - generic [ref=e99]:
+            - heading "经络推拿" [level=3] [ref=e100]
+            - paragraph [ref=e101]: 传统手法 · 疏通经络
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]: 疏通经络
+            - generic [ref=e105]: 缓解肌肉疲劳
+            - generic [ref=e106]: 改善血液循环
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e109]: 
+              - text: 60 分钟
+            - generic [ref=e110]:
+              - generic [ref=e111]: 
+              - text: 久坐人群、肩颈僵硬
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: ¥198
+              - generic [ref=e115]: ¥268
+            - generic [ref=e116]:
+              - button "详情" [ref=e117]
+              - button "立即预约" [ref=e118]
+      - article [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]:
+          - img "皇家泰式 SPA" [ref=e121]
+          - button "收藏" [ref=e122]:
+            - generic [ref=e123]: 
+          - generic [ref=e124]:
+            - generic [ref=e125]: 主推
+            - generic [ref=e126]: 情侣套餐
+          - generic [ref=e127]:
+            - heading "皇家泰式 SPA" [level=3] [ref=e128]
+            - paragraph [ref=e129]: 尊享体验 · 全程一对一
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - generic [ref=e132]: 全身放松
+            - generic [ref=e133]: 改善睡眠
+            - generic [ref=e134]: 尊享体验
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - generic [ref=e137]: 
+              - text: 120 分钟
+            - generic [ref=e138]:
+              - generic [ref=e139]: 
+              - text: 高品质追求者
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - generic [ref=e142]: ¥588
+              - generic [ref=e143]: ¥798
+            - generic [ref=e144]:
+              - button "详情" [ref=e145]
+              - button "立即预约" [ref=e146]
+      - article [ref=e147] [cursor=pointer]:
+        - generic [ref=e148]:
+          - img "淋巴排毒按摩" [ref=e149]
+          - button "收藏" [ref=e150]:
+            - generic [ref=e151]: 
+          - generic [ref=e152]:
+            - generic [ref=e153]: 女士专享
+            - generic [ref=e154]: 主推
+          - generic [ref=e155]:
+            - heading "淋巴排毒按摩" [level=3] [ref=e156]
+            - paragraph [ref=e157]: 雕塑身形 · 加速代谢
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - generic [ref=e160]: 消除水肿
+            - generic [ref=e161]: 雕塑身形
+            - generic [ref=e162]: 加速代谢
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - generic [ref=e165]: 
+              - text: 75 分钟
+            - generic [ref=e166]:
+              - generic [ref=e167]: 
+              - text: 水肿、代谢慢
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - generic [ref=e170]: ¥358
+              - generic [ref=e171]: ¥488
+            - generic [ref=e172]:
+              - button "详情" [ref=e173]
+              - button "立即预约" [ref=e174]
+      - article [ref=e175] [cursor=pointer]:
+        - generic [ref=e176]:
+          - img "刮痧拔罐" [ref=e177]
+          - button "收藏" [ref=e178]:
+            - generic [ref=e179]: 
+          - generic [ref=e181]: 主推
+          - generic [ref=e182]:
+            - heading "刮痧拔罐" [level=3] [ref=e183]
+            - paragraph [ref=e184]: 祛湿排毒 · 行气活血
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - generic [ref=e187]: 祛湿排寒
+            - generic [ref=e188]: 行气活血
+            - generic [ref=e189]: 舒缓疲劳
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - generic [ref=e192]: 
+              - text: 45 分钟
+            - generic [ref=e193]:
+              - generic [ref=e194]: 
+              - text: 湿气重、易疲劳人群
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - generic [ref=e197]: ¥158
+              - generic [ref=e198]: ¥218
+            - generic [ref=e199]:
+              - button "详情" [ref=e200]
+              - button "立即预约" [ref=e201]
+      - article [ref=e202] [cursor=pointer]:
+        - generic [ref=e203]:
+          - img "中药养生足浴" [ref=e204]
+          - button "收藏" [ref=e205]:
+            - generic [ref=e206]: 
+          - generic [ref=e208]: 主推
+          - generic [ref=e209]:
+            - heading "中药养生足浴" [level=3] [ref=e210]
+            - paragraph [ref=e211]: 十二经络 · 由足入身
+        - generic [ref=e212]:
+          - generic [ref=e213]:
+            - generic [ref=e214]: 驱寒祛湿
+            - generic [ref=e215]: 助眠安神
+            - generic [ref=e216]: 舒缓疲劳
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - generic [ref=e219]: 
+              - text: 60 分钟
+            - generic [ref=e220]:
+              - generic [ref=e221]: 
+              - text: 失眠、足部冰凉
+          - generic [ref=e222]:
+            - generic [ref=e223]:
+              - generic [ref=e224]: ¥138
+              - generic [ref=e225]: ¥198
+            - generic [ref=e226]:
+              - button "详情" [ref=e227]
+              - button "立即预约" [ref=e228]
+      - article [ref=e229] [cursor=pointer]:
+        - generic [ref=e230]:
+          - img "精油全身 SPA" [ref=e231]
+          - button "收藏" [ref=e232]:
+            - generic [ref=e233]: 
+          - generic [ref=e234]:
+            - generic [ref=e235]: 热门
+            - generic [ref=e236]: 女士专享
+          - generic [ref=e237]:
+            - heading "精油全身 SPA" [level=3] [ref=e238]
+            - paragraph [ref=e239]: 芳香疗法 · 身心愉悦
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - generic [ref=e242]: 舒缓身心
+            - generic [ref=e243]: 美容养颜
+            - generic [ref=e244]: 改善睡眠
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - generic [ref=e247]: 
+              - text: 90 分钟
+            - generic [ref=e248]:
+              - generic [ref=e249]: 
+              - text: 压力大、皮肤干燥
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]: ¥328
+              - generic [ref=e253]: ¥458
+            - generic [ref=e254]:
+              - button "详情" [ref=e255]
+              - button "立即预约" [ref=e256]
+      - article [ref=e257] [cursor=pointer]:
+        - generic [ref=e258]:
+          - img "泰式古法" [ref=e259]
+          - button "收藏" [ref=e260]:
+            - generic [ref=e261]: 
+          - generic [ref=e263]: 热门
+          - generic [ref=e264]:
+            - heading "泰式古法" [level=3] [ref=e265]
+            - paragraph [ref=e266]: 异域风情 · 深度放松
+        - generic [ref=e267]:
+          - generic [ref=e268]:
+            - generic [ref=e269]: 深度放松
+            - generic [ref=e270]: 柔韧筋骨
+            - generic [ref=e271]: 释放压力
+          - generic [ref=e272]:
+            - generic [ref=e273]:
+              - generic [ref=e274]: 
+              - text: 90 分钟
+            - generic [ref=e275]:
+              - generic [ref=e276]: 
+              - text: 久坐、运动量少人群
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - generic [ref=e279]: ¥268
+              - generic [ref=e280]: ¥358
+            - generic [ref=e281]:
+              - button "详情" [ref=e282]
+              - button "立即预约" [ref=e283]
+      - article [ref=e284] [cursor=pointer]:
+        - generic [ref=e285]:
+          - img "中式足底按摩" [ref=e286]
+          - button "收藏" [ref=e287]:
+            - generic [ref=e288]: 
+          - generic [ref=e290]: 热门
+          - generic [ref=e291]:
+            - heading "中式足底按摩" [level=3] [ref=e292]
+            - paragraph [ref=e293]: 反射疗法 · 养生保健
+        - generic [ref=e294]:
+          - generic [ref=e295]:
+            - generic [ref=e296]: 调理脏腑
+            - generic [ref=e297]: 促进代谢
+            - generic [ref=e298]: 增强免疫
+          - generic [ref=e299]:
+            - generic [ref=e300]:
+              - generic [ref=e301]: 
+              - text: 45 分钟
+            - generic [ref=e302]:
+              - generic [ref=e303]: 
+              - text: 所有人群
+          - generic [ref=e304]:
+            - generic [ref=e305]:
+              - generic [ref=e306]: ¥99
+              - generic [ref=e307]: ¥158
+            - generic [ref=e308]:
+              - button "详情" [ref=e309]
+              - button "立即预约" [ref=e310]
+      - article [ref=e311] [cursor=pointer]:
+        - generic [ref=e312]:
+          - img "肩颈头部调理" [ref=e313]
+          - button "收藏" [ref=e314]:
+            - generic [ref=e315]: 
+          - generic [ref=e317]: 热门
+          - generic [ref=e318]:
+            - heading "肩颈头部调理" [level=3] [ref=e319]
+            - paragraph [ref=e320]: 深度放松 · 缓解头痛
+        - generic [ref=e321]:
+          - generic [ref=e322]:
+            - generic [ref=e323]: 缓解头痛
+            - generic [ref=e324]: 改善失眠
+            - generic [ref=e325]: 放松肩颈
+          - generic [ref=e326]:
+            - generic [ref=e327]:
+              - generic [ref=e328]: 
+              - text: 30 分钟
+            - generic [ref=e329]:
+              - generic [ref=e330]: 
+              - text: 电脑族、头痛人群
+          - generic [ref=e331]:
+            - generic [ref=e332]:
+              - generic [ref=e333]: ¥88
+              - generic [ref=e334]: ¥128
+            - generic [ref=e335]:
+              - button "详情" [ref=e336]
+              - button "立即预约" [ref=e337]
+      - article [ref=e338] [cursor=pointer]:
+        - generic [ref=e339]:
+          - img "艾灸调理" [ref=e340]
+          - button "收藏" [ref=e341]:
+            - generic [ref=e342]: 
+          - generic [ref=e344]: 女士专享
+          - generic [ref=e345]:
+            - heading "艾灸调理" [level=3] [ref=e346]
+            - paragraph [ref=e347]: 温阳散寒 · 滋补元气
+        - generic [ref=e348]:
+          - generic [ref=e349]:
+            - generic [ref=e350]: 温阳散寒
+            - generic [ref=e351]: 调理宫寒
+            - generic [ref=e352]: 提升免疫
+          - generic [ref=e353]:
+            - generic [ref=e354]:
+              - generic [ref=e355]: 
+              - text: 60 分钟
+            - generic [ref=e356]:
+              - generic [ref=e357]: 
+              - text: 宫寒、手脚冰凉、体虚
+          - generic [ref=e358]:
+            - generic [ref=e359]:
+              - generic [ref=e360]: ¥188
+              - generic [ref=e361]: ¥258
+            - generic [ref=e362]:
+              - button "详情" [ref=e363]
+              - button "立即预约" [ref=e364]
+      - article [ref=e365] [cursor=pointer]:
+        - generic [ref=e366]:
+          - img "香薰背部护理" [ref=e367]
+          - button "收藏" [ref=e368]:
+            - generic [ref=e369]: 
+          - generic [ref=e371]: 女士专享
+          - generic [ref=e372]:
+            - heading "香薰背部护理" [level=3] [ref=e373]
+            - paragraph [ref=e374]: 深层清洁 · 焕亮肤质
+        - generic [ref=e375]:
+          - generic [ref=e376]:
+            - generic [ref=e377]: 清洁毛孔
+            - generic [ref=e378]: 改善背痘
+            - generic [ref=e379]: 焕亮肤质
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - generic [ref=e382]: 
+              - text: 60 分钟
+            - generic [ref=e383]:
+              - generic [ref=e384]: 
+              - text: 背部痤疮、肤色暗沉
+          - generic [ref=e385]:
+            - generic [ref=e386]:
+              - generic [ref=e387]: ¥268
+              - generic [ref=e388]: ¥358
+            - generic [ref=e389]:
+              - button "详情" [ref=e390]
+              - button "立即预约" [ref=e391]
+      - article [ref=e392] [cursor=pointer]:
+        - generic [ref=e393]:
+          - img "面部芳疗护理" [ref=e394]
+          - button "收藏" [ref=e395]:
+            - generic [ref=e396]: 
+          - generic [ref=e397]:
+            - generic [ref=e398]: 女士专享
+            - generic [ref=e399]: 新品
+          - generic [ref=e400]:
+            - heading "面部芳疗护理" [level=3] [ref=e401]
+            - paragraph [ref=e402]: 法式手法 · 抗衰养肤
+        - generic [ref=e403]:
+          - generic [ref=e404]:
+            - generic [ref=e405]: 提拉紧致
+            - generic [ref=e406]: 改善暗沉
+            - generic [ref=e407]: 深层补水
+          - generic [ref=e408]:
+            - generic [ref=e409]:
+              - generic [ref=e410]: 
+              - text: 60 分钟
+            - generic [ref=e411]:
+              - generic [ref=e412]: 
+              - text: 初老肌、暗沉肌
+          - generic [ref=e413]:
+            - generic [ref=e414]:
+              - generic [ref=e415]: ¥298
+              - generic [ref=e416]: ¥398
+            - generic [ref=e417]:
+              - button "详情" [ref=e418]
+              - button "立即预约" [ref=e419]
+      - article [ref=e420] [cursor=pointer]:
+        - generic [ref=e421]:
+          - img "热石能量按摩" [ref=e422]
+          - button "收藏" [ref=e423]:
+            - generic [ref=e424]: 
+          - generic [ref=e426]: 新品
+          - generic [ref=e427]:
+            - heading "热石能量按摩" [level=3] [ref=e428]
+            - paragraph [ref=e429]: 玄武岩 · 深层热疗
+        - generic [ref=e430]:
+          - generic [ref=e431]:
+            - generic [ref=e432]: 温通经络
+            - generic [ref=e433]: 深层放松
+            - generic [ref=e434]: 改善循环
+          - generic [ref=e435]:
+            - generic [ref=e436]:
+              - generic [ref=e437]: 
+              - text: 75 分钟
+            - generic [ref=e438]:
+              - generic [ref=e439]: 
+              - text: 寒性体质、肌肉紧张
+          - generic [ref=e440]:
+            - generic [ref=e441]:
+              - generic [ref=e442]: ¥328
+              - generic [ref=e443]: ¥458
+            - generic [ref=e444]:
+              - button "详情" [ref=e445]
+              - button "立即预约" [ref=e446]
+      - article [ref=e447] [cursor=pointer]:
+        - generic [ref=e448]:
+          - img "印度头部 SPA" [ref=e449]
+          - button "收藏" [ref=e450]:
+            - generic [ref=e451]: 
+          - generic [ref=e452]:
+            - generic [ref=e453]: 新品
+            - generic [ref=e454]: 女士专享
+          - generic [ref=e455]:
+            - heading "印度头部 SPA" [level=3] [ref=e456]
+            - paragraph [ref=e457]: 香薰头疗 · 重塑发质
+        - generic [ref=e458]:
+          - generic [ref=e459]:
+            - generic [ref=e460]: 改善脱发
+            - generic [ref=e461]: 舒缓头皮
+            - generic [ref=e462]: 安神助眠
+          - generic [ref=e463]:
+            - generic [ref=e464]:
+              - generic [ref=e465]: 
+              - text: 60 分钟
+            - generic [ref=e466]:
+              - generic [ref=e467]: 
+              - text: 脱发、用脑过度
+          - generic [ref=e468]:
+            - generic [ref=e469]:
+              - generic [ref=e470]: ¥188
+              - generic [ref=e471]: ¥268
+            - generic [ref=e472]:
+              - button "详情" [ref=e473]
+              - button "立即预约" [ref=e474]
+      - article [ref=e475] [cursor=pointer]:
+        - generic [ref=e476]:
+          - img "四手联弹按摩" [ref=e477]
+          - button "收藏" [ref=e478]:
+            - generic [ref=e479]: 
+          - generic [ref=e480]:
+            - generic [ref=e481]: 情侣套餐
+            - generic [ref=e482]: 新品
+          - generic [ref=e483]:
+            - heading "四手联弹按摩" [level=3] [ref=e484]
+            - paragraph [ref=e485]: 双人技师 · 极致享受
+        - generic [ref=e486]:
+          - generic [ref=e487]:
+            - generic [ref=e488]: 左右同步
+            - generic [ref=e489]: 极致放松
+            - generic [ref=e490]: 尊享体验
+          - generic [ref=e491]:
+            - generic [ref=e492]:
+              - generic [ref=e493]: 
+              - text: 90 分钟
+            - generic [ref=e494]:
+              - generic [ref=e495]: 
+              - text: 追求极致体验
+          - generic [ref=e496]:
+            - generic [ref=e497]:
+              - generic [ref=e498]: ¥488
+              - generic [ref=e499]: ¥668
+            - generic [ref=e500]:
+              - button "详情" [ref=e501]
+              - button "立即预约" [ref=e502]
+      - article [ref=e503] [cursor=pointer]:
+        - generic [ref=e504]:
+          - img "小儿推拿" [ref=e505]
+          - button "收藏" [ref=e506]:
+            - generic [ref=e507]: 
+          - generic [ref=e509]: 新品
+          - generic [ref=e510]:
+            - heading "小儿推拿" [level=3] [ref=e511]
+            - paragraph [ref=e512]: 绿色调理 · 增强体质
+        - generic [ref=e513]:
+          - generic [ref=e514]:
+            - generic [ref=e515]: 增强免疫
+            - generic [ref=e516]: 健脾开胃
+            - generic [ref=e517]: 改善睡眠
+          - generic [ref=e518]:
+            - generic [ref=e519]:
+              - generic [ref=e520]: 
+              - text: 30 分钟
+            - generic [ref=e521]:
+              - generic [ref=e522]: 
+              - text: 3-12 岁儿童
+          - generic [ref=e523]:
+            - generic [ref=e524]:
+              - generic [ref=e525]: ¥128
+              - generic [ref=e526]: ¥168
+            - generic [ref=e527]:
+              - button "详情" [ref=e528]
+              - button "立即预约" [ref=e529]
+  - generic [ref=e531]:
+    - generic [ref=e532]:
+      - generic [ref=e533]: ENVIRONMENT
+      - heading "静谧雅致 · 沉浸空间" [level=2] [ref=e534]
+      - paragraph [ref=e535]: 每一处细节都为您的身心松弛而设计
+    - generic [ref=e537]:
+      - img "明亮洁净的养生护理空间" [ref=e539]
+      - img "温润木质疗愈护理室" [ref=e541]
+    - generic [ref=e542]:
+      - generic [ref=e543]:
+        - generic [ref=e545]: 
+        - heading "专业资质" [level=3] [ref=e546]
+        - paragraph [ref=e547]: 技师均持证上岗，10 年以上从业经验
+      - generic [ref=e548]:
+        - generic [ref=e550]: 
+        - heading "天然产品" [level=3] [ref=e551]
+        - paragraph [ref=e552]: 法国进口精油 · 三年陈艾 · 中药足浴
+      - generic [ref=e553]:
+        - generic [ref=e555]: 
+        - heading "卫生安全" [level=3] [ref=e556]
+        - paragraph [ref=e557]: 一客一换 · 紫外消毒 · 安心放心
+      - generic [ref=e558]:
+        - generic [ref=e560]: 
+        - heading "女士专属" [level=3] [ref=e561]
+        - paragraph [ref=e562]: 女技师服务 · 独立包间 · 隐私无忧
+  - generic [ref=e564]:
+    - generic [ref=e565]:
+      - generic [ref=e566]: OFFERS
+      - heading "限时优惠 · 尊享福利" [level=2] [ref=e567]
+      - paragraph [ref=e568]: 新客首单立省 · 会员专属价 · 双人共享时光
+    - generic [ref=e570]:
+      - generic [ref=e571]:
+        - generic [ref=e572]: 
+        - heading "新客体验价" [level=3] [ref=e573]
+        - generic [ref=e574]: ¥99
+        - generic [ref=e575]: 原价 ¥198
+        - list [ref=e576]:
+          - listitem [ref=e577]:
+            - generic [ref=e578]: 
+            - text: 60 分钟经络推拿
+          - listitem [ref=e579]:
+            - generic [ref=e580]: 
+            - text: 赠送养生茶饮
+          - listitem [ref=e581]:
+            - generic [ref=e582]: 
+            - text: 仅限首次到店
+        - button "立即抢购" [ref=e583] [cursor=pointer]
+      - generic [ref=e584]:
+        - generic [ref=e585]: 
+        - heading "会员套餐" [level=3] [ref=e586]
+        - generic [ref=e587]: ¥1888
+        - generic [ref=e588]: 10 次卡 · 立省 ¥520
+        - list [ref=e589]:
+          - listitem [ref=e590]:
+            - generic [ref=e591]: 
+            - text: 任选项目 10 次
+          - listitem [ref=e592]:
+            - generic [ref=e593]: 
+            - text: 赠送 2 次足底按摩
+          - listitem [ref=e594]:
+            - generic [ref=e595]: 
+            - text: 会员专属优惠
+        - button "立即办理" [ref=e596] [cursor=pointer]
+      - generic [ref=e597]:
+        - generic [ref=e598]: 
+        - heading "双人套餐" [level=3] [ref=e599]
+        - generic [ref=e600]: ¥498
+        - generic [ref=e601]: 原价 ¥656
+        - list [ref=e602]:
+          - listitem [ref=e603]:
+            - generic [ref=e604]: 
+            - text: 90 分钟精油 SPA
+          - listitem [ref=e605]:
+            - generic [ref=e606]: 
+            - text: 双人独立包间
+          - listitem [ref=e607]:
+            - generic [ref=e608]: 
+            - text: 赠送水果茶点
+        - button "立即预约" [ref=e609] [cursor=pointer]
+  - generic [ref=e611]:
+    - generic [ref=e612]:
+      - generic [ref=e613]: CONTACT
+      - heading "联系我们" [level=2] [ref=e614]
+      - paragraph [ref=e615]: 欢迎随时咨询预约
+    - generic [ref=e617]:
+      - generic [ref=e618]:
+        - generic [ref=e620]: 
+        - heading "预约电话" [level=3] [ref=e621]
+        - link "400-888-8888" [ref=e622] [cursor=pointer]:
+          - /url: tel:400-888-8888
+      - generic [ref=e623]:
+        - generic [ref=e625]: 
+        - heading "门店地址" [level=3] [ref=e626]
+        - paragraph [ref=e627]: 深圳市南山区科技园南区
+      - generic [ref=e628]:
+        - generic [ref=e630]: 
+        - heading "营业时间" [level=3] [ref=e631]
+        - paragraph [ref=e632]: 10:00 - 22:00
+      - generic [ref=e633]:
+        - generic [ref=e635]: 
+        - heading "微信咨询" [level=3] [ref=e636]
+        - paragraph [ref=e637]: yuexin_spa
+    - generic [ref=e638]:
+      - link " 一键拨号" [ref=e639] [cursor=pointer]:
+        - /url: tel:400-888-8888
+        - generic [ref=e640]: 
+        - text: 一键拨号
+      - button " 导航到店" [ref=e641] [cursor=pointer]:
+        - generic [ref=e642]: 
+        - text: 导航到店
+  - contentinfo [ref=e643]:
+    - generic [ref=e644]:
+      - link "微信" [ref=e645] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e646]: 
+      - link "微博" [ref=e647] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e648]: 
+      - link "QQ" [ref=e649] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e650]: 
+    - paragraph [ref=e651]: © 2026 悦心养生馆 · 版权所有
+    - paragraph [ref=e652]:
+      - text: 由
+      - link "With" [ref=e653] [cursor=pointer]:
+        - /url: https://with.woa.com/
+      - text: 通过自然语言生成
+  - dialog:
+    - generic:
+      - button "关闭":
+        - generic: 
+  - dialog:
+    - generic:
+      - generic:
+        - heading " 预约服务" [level=3]:
+          - generic: 
+          - text: 预约服务
+        - button "关闭":
+          - generic: 
+      - generic:
+        - generic: 
+        - generic: 请选择服务项目
+      - generic:
+        - generic:
+          - generic: 姓名
+          - textbox "姓名":
+            - /placeholder: 请输入您的姓名
+        - generic:
+          - generic: 手机号
+          - textbox "手机号":
+            - /placeholder: 11 位手机号
+        - generic:
+          - generic: 预约时间
+          - textbox "预约时间"
+        - generic:
+          - generic: 备注（可选）
+          - textbox "备注（可选）":
+            - /placeholder: 如有特殊需求请告诉我们
+        - button " 确认预约":
+          - generic: 
+          - text: 确认预约
+  - generic [ref=e654]:
+    - link "电话" [ref=e655] [cursor=pointer]:
+      - /url: tel:400-888-8888
+      - generic [ref=e656]: 
+    - button "返回顶部":
+      - generic: 

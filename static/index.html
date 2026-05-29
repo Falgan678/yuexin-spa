@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+    <!-- ============ SEO 元数据 ============ -->
+    <title>悦心养生馆 · 中式调理 / 泰式 SPA / 芳疗护理 / 足疗保健</title>
+    <meta name="description" content="悦心养生馆，专业中式经络调理、泰式古法 SPA、芳疗精油护理与足疗保健，10 年资深技师团队，独立包间，让都市身心回归自然。">
+    <meta name="keywords" content="养生馆,中式调理,泰式SPA,芳疗,足疗,经络推拿,精油按摩,艾灸,深圳养生">
+    <meta name="author" content="悦心养生馆">
+    <meta name="robots" content="index,follow">
+    <meta name="format-detection" content="telephone=yes">
+    <link rel="canonical" href="/">
+
+    <!-- ============ Open Graph / 微信分享 ============ -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:site_name" content="悦心养生馆">
+    <meta property="og:title" content="悦心养生馆 · 让身心回归自然">
+    <meta property="og:description" content="中式调理 / 泰式 SPA / 芳疗护理 / 足疗保健 · 10 年资深技师团队 · 独立包间">
+    <meta property="og:image" content="/static/assets/og-cover.jpg">
+    <meta property="og:url" content="/">
+
+    <!-- ============ Twitter Card ============ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="悦心养生馆 · 让身心回归自然">
+    <meta name="twitter:description" content="中式调理 / 泰式 SPA / 芳疗护理 / 足疗保健">
+    <meta name="twitter:image" content="/static/assets/og-cover.jpg">
+
+    <!-- ============ PWA & 多尺寸 favicon ============ -->
+    <meta name="theme-color" content="#0F766E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="悦心养生馆">
+    <meta name="application-name" content="悦心养生馆">
+    <meta name="msapplication-TileColor" content="#0F766E">
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32"  href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="mask-icon" href="assets/favicon.svg" color="#0F766E">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <!-- ============ 结构化数据 (JSON-LD) ============ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "悦心养生馆",
+      "image": "/static/assets/og-cover.jpg",
+      "description": "专业中式调理、泰式 SPA、芳疗护理、足疗保健",
+      "telephone": "400-888-8888",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CN",
+        "addressRegion": "广东省",
+        "addressLocality": "深圳市",
+        "streetAddress": "南山区科技园南区"
+      },
+      "openingHours": "Mo-Su 10:00-22:00",
+      "priceRange": "¥¥"
+    }
+    </script>
+
+    <!-- ============ 资源预连接（提速首屏）============ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 优惠活动 · 共享设计 Token（前后端唯一真相源，必须在 style.css 之前引入） -->
+    <link rel="stylesheet" href="offer-tokens.css?v=20260528-3">
+    <link rel="stylesheet" href="style.css?v=20260528-3">
+    <link rel="stylesheet" href="skeleton.css?v=20260528-3">
+</head>
+<body>
+
+    <!-- ============== 顶部导航 ============== -->
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-inner">
+            <a href="#home" class="brand">
+                <i class="fas fa-spa"></i>
+                <span>悦心养生馆<span class="brand-en">YUE XIN SPA</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="menu-link">首页</a>
+                <a href="#services" class="menu-link">服务项目</a>
+                <a href="#environment" class="menu-link">环境</a>
+                <a href="#offers" class="menu-link">优惠</a>
+                <a href="#contact" class="menu-link">联系我们</a>
+                <button type="button" class="nav-cta" data-action="book"><i class="fas fa-calendar-check"></i> 立即预约</button>
+            </div>
+            <button id="menuBtn" class="menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- 侧边菜单（移动端） -->
+    <div id="sideMenu" class="side-menu">
+        <button id="closeMenuBtn" class="side-close" aria-label="关闭"><i class="fas fa-times"></i></button>
+        <a href="#home" class="menu-link">首页</a>
+        <a href="#services" class="menu-link">服务项目</a>
+        <a href="#environment" class="menu-link">环境</a>
+        <a href="#offers" class="menu-link">优惠</a>
+        <a href="#contact" class="menu-link">联系我们</a>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- ============== Hero ============== -->
+    <header id="home" class="hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <span class="hero-eyebrow"><i class="fas fa-leaf"></i> 自然养生 · 匠心传承</span>
+                <h1>悦心养生馆</h1>
+                <p class="hero-sub">以中式经络调理、泰式舒展、芳疗护理与足疗保健，为都市身心留出一段静谧、精细、被照顾的时间。</p>
+                <div class="hero-actions">
+                    <a href="#services" class="btn-primary"><i class="fas fa-spa"></i> 查看护理项目</a>
+                    <button type="button" class="btn-ghost" data-action="book"><i class="fas fa-calendar-check"></i> 一键预约</button>
+                </div>
+                <div class="hero-stats">
+                    <div><strong>16+</strong><span>精品养生项目</span></div>
+                    <div><strong>10年</strong><span>专业技师团队</span></div>
+                    <div><strong>98%</strong><span>顾客复购率</span></div>
+                </div>
+            </div>
+            <div class="hero-badge">
+                <i class="fas fa-award"></i>
+                <div>
+                    <b>专业资质认证</b>
+                    <span>持证技师 · 独立包间 · 一客一换</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============== 服务项目 ============== -->
+    <section id="services" class="section">
+        <div class="section-inner">
+            <div class="section-head animate-on-scroll">
+                <span class="section-eyebrow">SERVICES</span>
+                <h2 class="section-title">精品服务项目</h2>
+                <p class="section-desc">四大门类，十六项精选，由资深技师为您量身定制</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- 工具栏：搜索 + 数量 -->
+            <div class="service-toolbar">
+                <div class="search-box">
+                    <i class="fas fa-magnifying-glass"></i>
+                    <input id="serviceSearchInput" type="search" placeholder="搜索项目、功效或人群（如：肩颈、女士、改善睡眠）">
+                </div>
+                <span class="service-count" id="serviceCount">共 0 项</span>
+            </div>
+
+            <!-- 分类 Tab -->
+            <div class="category-tabs" id="categoryTabs"></div>
+
+            <!-- 筛选条 -->
+            <div class="service-filters" id="serviceFilters"></div>
+
+            <!-- 服务卡片网格 -->
+            <div class="service-grid" id="serviceGrid"></div>
+
+            <!-- 骨架屏：弱网/首屏白屏占位（由 modules/skeleton.js 控制隐藏） -->
+            <div class="skeleton-grid" id="skeleton-services" aria-hidden="true">
+                <div class="skeleton-card"><div class="sk-img"></div><div class="sk-line w-70"></div><div class="sk-line w-50"></div><div class="sk-line w-90"></div></div>
+                <div class="skeleton-card"><div class="sk-img"></div><div class="sk-line w-70"></div><div class="sk-line w-50"></div><div class="sk-line w-90"></div></div>
+                <div class="skeleton-card"><div class="sk-img"></div><div class="sk-line w-70"></div><div class="sk-line w-50"></div><div class="sk-line w-90"></div></div>
+                <div class="skeleton-card"><div class="sk-img"></div><div class="sk-line w-70"></div><div class="sk-line w-50"></div><div class="sk-line w-90"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== 环境展示 ============== -->
+    <section id="environment" class="section environment-section">
+        <div class="section-inner">
+            <div class="section-head animate-on-scroll">
+                <span class="section-eyebrow" id="envEyebrow">ENVIRONMENT</span>
+                <h2 class="section-title" id="envTitle">静谧雅致 · 沉浸空间</h2>
+                <p class="section-desc" id="envSubtitle">每一处细节都为您的身心松弛而设计</p>
+                <div class="section-divider"></div>
+            </div>
+            <!-- 错落式 / 沉浸式图墙：由 modules/environment.js 动态渲染 -->
+            <div class="env-mosaic" id="envGrid"></div>
+
+            <!-- 骨架屏 -->
+            <div class="skeleton-env" id="skeleton-environment" aria-hidden="true">
+                <div class="sk-env-main"></div>
+                <div class="sk-env-side"><div></div><div></div><div></div></div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card animate-on-scroll">
+                    <div class="icon-wrap"><i class="fas fa-certificate"></i></div>
+                    <h3>专业资质</h3>
+                    <p>技师均持证上岗，10 年以上从业经验</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="icon-wrap"><i class="fas fa-leaf"></i></div>
+                    <h3>天然产品</h3>
+                    <p>法国进口精油 · 三年陈艾 · 中药足浴</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="icon-wrap"><i class="fas fa-shield-alt"></i></div>
+                    <h3>卫生安全</h3>
+                    <p>一客一换 · 紫外消毒 · 安心放心</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="icon-wrap"><i class="fas fa-user-shield"></i></div>
+                    <h3>女士专属</h3>
+                    <p>女技师服务 · 独立包间 · 隐私无忧</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== 优惠 ============== -->
+    <section id="offers" class="section">
+        <div class="section-inner">
+            <div class="section-head animate-on-scroll">
+                <span class="section-eyebrow">OFFERS</span>
+                <h2 class="section-title">限时优惠 · 尊享福利</h2>
+                <p class="section-desc">新客首单立省 · 会员专属价 · 双人共享时光</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="offer-grid" id="offerGrid">
+                <!-- 由 modules/offers.js 动态渲染 -->
+            </div>
+
+            <!-- 骨架屏 -->
+            <div class="skeleton-offers" id="skeleton-offers" aria-hidden="true">
+                <div class="sk-offer"></div>
+                <div class="sk-offer"></div>
+                <div class="sk-offer"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== 联系 ============== -->
+    <section id="contact" class="section contact-section">
+        <div class="section-inner">
+            <div class="section-head animate-on-scroll">
+                <span class="section-eyebrow">CONTACT</span>
+                <h2 class="section-title">联系我们</h2>
+                <p class="section-desc">欢迎随时咨询预约</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="contact-grid" id="contactGrid">
+                <!-- 由 modules/contact.js 动态渲染 -->
+            </div>
+            <div class="contact-cta animate-on-scroll">
+                <a id="contactCallBtn" href="tel:400-888-8888" class="btn-primary" data-call="trigger"><i class="fas fa-phone-alt"></i> 一键拨号</a>
+                <button id="navBtn" class="btn-ghost"><i class="fas fa-map-marked-alt"></i> 导航到店</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="socials">
+            <a href="#" aria-label="微信"><i class="fab fa-weixin"></i></a>
+            <a href="#" aria-label="微博"><i class="fab fa-weibo"></i></a>
+            <a href="#" aria-label="QQ"><i class="fab fa-qq"></i></a>
+        </div>
+        <p>© 2026 悦心养生馆 · 版权所有</p>
+        <p class="signature">由 <span class="signature-author">甘发龙</span> 通过自然语言生成</p>
+    </footer>
+
+    <!-- ============== 服务详情弹窗 ============== -->
+    <div class="detail-modal" id="serviceDetailModal" role="dialog" aria-modal="true">
+        <div class="detail-dialog">
+            <button class="detail-close" data-close aria-label="关闭"><i class="fas fa-times"></i></button>
+            <div data-detail-content></div>
+        </div>
+    </div>
+
+    <!-- ============== 预约弹窗 ============== -->
+    <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true">
+        <div class="booking-dialog">
+            <div class="booking-head">
+                <h3><i class="fas fa-calendar-check" style="color: var(--color-primary); margin-right: 6px;"></i>预约服务</h3>
+                <button id="closeModal" class="booking-close" aria-label="关闭"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="booking-service-line">
+                <i class="fas fa-spa"></i>
+                <span id="bookingServiceDisplay" class="placeholder">请选择服务项目</span>
+            </div>
+            <form id="bookingForm" class="booking-form" autocomplete="on" novalidate>
+                <div class="field">
+                    <label for="bk-name">姓名</label>
+                    <input id="bk-name" type="text" name="name" required maxlength="50"
+                           autocomplete="name" inputmode="text"
+                           placeholder="请输入您的姓名">
+                </div>
+                <div class="field">
+                    <label for="bk-phone">手机号</label>
+                    <input id="bk-phone" type="tel" name="phone" required pattern="^1[3-9]\d{9}$"
+                           autocomplete="tel" inputmode="numeric" maxlength="11"
+                           placeholder="11 位手机号">
+                </div>
+                <div class="field">
+                    <label for="bk-time">预约时间</label>
+                    <input id="bk-time" type="datetime-local" name="datetime" required>
+                </div>
+                <div class="field">
+                    <label for="bk-note">备注（可选）</label>
+                    <textarea id="bk-note" name="note" rows="3" maxlength="500"
+                              placeholder="如有特殊需求请告诉我们"></textarea>
+                </div>
+                <button type="submit"><i class="far fa-paper-plane"></i> 确认预约</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============== 浮动按钮 ============== -->
+    <div class="floating">
+        <a href="tel:400-888-8888" aria-label="电话" data-call="trigger"><i class="fas fa-phone-alt"></i></a>
+        <button id="scrollTop" class="scroll-top" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    </div>
+
+    <!-- ============== 电话拨号弹窗 ============== -->
+    <div class="phone-modal" id="phoneModal" role="dialog" aria-modal="true" aria-labelledby="phoneModalTitle">
+        <div class="phone-dialog" role="document">
+            <button class="phone-close" type="button" aria-label="关闭"><i class="fas fa-times"></i></button>
+            <div class="phone-icon-wrap">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+            <h3 class="phone-title" id="phoneModalTitle">门店咨询电话</h3>
+            <p class="phone-subtitle">「专业养生 · 用心服务」</p>
+            <div class="phone-number-row">
+                <span class="phone-number" id="phoneModalNumber">400-888-8888</span>
+                <button type="button" class="phone-copy-btn" aria-label="复制号码" title="复制号码">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+            <p class="phone-tip">
+                <i class="fas fa-circle-info"></i>
+                <span>点击号码即可一键复制 · 营业时间 <span id="phoneModalHours">10:00 - 22:00</span></span>
+            </p>
+            <button type="button" class="phone-call-btn" id="phoneModalCall">
+                <i class="fas fa-phone-alt"></i> 立即拨打
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="main.js?v=20260528-3"></script>
+</body>
+</html>

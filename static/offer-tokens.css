@@ -1,0 +1,65 @@
+/* ============================================================
+ * 优惠活动 · 共享设计 Token（前后端唯一真相源）
+ * ------------------------------------------------------------
+ * 使用方式：
+ *   <link rel="stylesheet" href="offer-tokens.css">
+ *   /* 必须放在 style.css / admin-style.css 之前，便于变量被读取 *\/
+ *
+ * 引用：
+ *   .offer-card::before    { background: var(--offer-1-gradient); }
+ *   .offer-preview::before { background: var(--offer-1-gradient); }
+ *   .offer-card.offer-1 button { color: var(--offer-1-btn-color); }
+ *   .offer-preview.offer-1 .offer-btn-mock { color: var(--offer-1-btn-color); }
+ *
+ * 注意：所有"优惠活动相关配色"都应只在这里维护，禁止在前端 / 后台
+ *       样式表中再次硬编码 hex 色值。
+ * ============================================================ */
+:root {
+    /* —— 12 套主题渐变（135° 双向循环，与首页 gradMove 动画兼容） —— */
+    --offer-1-gradient:  linear-gradient(135deg, #0F766E, #14B8A6, #0F766E);
+    --offer-2-gradient:  linear-gradient(135deg, #B5895C, #D4A574, #B5895C);
+    --offer-3-gradient:  linear-gradient(135deg, #8B5CF6, #EC4899, #8B5CF6);
+    --offer-4-gradient:  linear-gradient(135deg, #52796F, #84A98C, #52796F);
+    --offer-5-gradient:  linear-gradient(135deg, #EA580C, #FB923C, #EA580C);
+    --offer-6-gradient:  linear-gradient(135deg, #0369A1, #0EA5E9, #0369A1);
+    --offer-7-gradient:  linear-gradient(135deg, #DB2777, #F472B6, #DB2777);
+    --offer-8-gradient:  linear-gradient(135deg, #111827, #374151, #1F2937);
+    --offer-9-gradient:  linear-gradient(135deg, #E11D48, #FB7185, #E11D48);
+    --offer-10-gradient: linear-gradient(135deg, #059669, #34D399, #059669);
+    --offer-11-gradient: linear-gradient(135deg, #6D28D9, #A78BFA, #6D28D9);
+    --offer-12-gradient: linear-gradient(135deg, #CA8A04, #FACC15, #CA8A04);
+
+    /* —— 主题对应的"立即预约"按钮文字色 —— */
+    --offer-1-btn-color:  #0F766E;
+    --offer-2-btn-color:  #8F693C;
+    --offer-3-btn-color:  #6D28D9;
+    --offer-4-btn-color:  #2F4F4F;
+    --offer-5-btn-color:  #C2410C;
+    --offer-6-btn-color:  #075985;
+    --offer-7-btn-color:  #BE185D;
+    --offer-8-btn-color:  #1F2937;
+    --offer-9-btn-color:  #BE123C;
+    --offer-10-btn-color: #047857;
+    --offer-11-btn-color: #5B21B6;
+    --offer-12-btn-color: #92400E;
+
+    /* —— 主题 8（玉墨禅意）金色描边点缀 —— */
+    --offer-8-accent: rgba(212, 175, 55, 0.45);
+    --offer-8-accent-soft: rgba(212, 175, 55, 0.18);
+    --offer-8-btn-bg: linear-gradient(180deg, #FBBF24, #D4AF37);
+
+    /* —— 操作 / 状态色（"上架 / 下架"按钮、停用蒙层、徽章等） —— */
+    --offer-action-edit:    #2563EB;   /* 编辑（蓝） */
+    --offer-action-edit-hover: #1D4ED8;
+    --offer-action-toggle-on:  #059669; /* "点击下架"语义为执行下架 → 用绿系暗示当前在线 */
+    --offer-action-toggle-off: #D97706; /* "点击上架" → 暖橙系 */
+    --offer-action-delete:  #E11D48;
+    --offer-action-delete-hover: #BE123C;
+
+    --offer-status-active-bg:    #ECFDF5;
+    --offer-status-active-text:  #047857;
+    --offer-status-active-border:#A7F3D0;
+    --offer-status-inactive-bg:   #F1F5F9;
+    --offer-status-inactive-text: #475569;
+    --offer-status-inactive-border:#CBD5E1;
+}

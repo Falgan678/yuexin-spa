@@ -1,0 +1,153 @@
+/* ============================================================
+ * 骨架屏 / 加载占位 / 错误兜底
+ * ============================================================
+ * 与 modules/skeleton.js 配合：
+ *   - 容器 id：skeleton-services / skeleton-environment / skeleton-offers
+ *   - 真实容器渲染后追加 .skeleton-hidden 实现淡出
+ */
+
+/* ---- 通用 shimmer 动画 ---- */
+@keyframes sk-shimmer {
+    0%   { background-position: -468px 0; }
+    100% { background-position: 468px 0; }
+}
+.sk-img,
+.sk-line,
+.sk-env-main,
+.sk-env-side > div,
+.sk-offer {
+    background: linear-gradient(
+        90deg,
+        #f1ece4 0%,
+        #faf6ee 40%,
+        #f1ece4 80%
+    );
+    background-size: 800px 100%;
+    animation: sk-shimmer 1.4s linear infinite;
+    border-radius: 10px;
+}
+
+/* ---- 公共淡出 ---- */
+.skeleton-grid,
+.skeleton-env,
+.skeleton-offers {
+    transition: opacity .28s ease, transform .28s ease;
+    will-change: opacity;
+}
+.skeleton-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+}
+
+/* ---- 服务卡片骨架 ---- */
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+    margin-top: 24px;
+}
+.skeleton-card {
+    background: #fffdf8;
+    border: 1px solid rgba(181, 138, 85, 0.10);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 4px 12px rgba(20, 30, 28, 0.04);
+}
+.skeleton-card .sk-img {
+    height: 160px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+}
+.skeleton-card .sk-line {
+    height: 12px;
+    margin-bottom: 10px;
+}
+.sk-line.w-90 { width: 90%; }
+.sk-line.w-70 { width: 70%; }
+.sk-line.w-50 { width: 50%; }
+
+/* ---- 环境骨架（主图 + 三小图）---- */
+.skeleton-env {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    margin-top: 18px;
+}
+.sk-env-main {
+    height: 380px;
+    border-radius: 18px;
+}
+.sk-env-side {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 16px;
+}
+.sk-env-side > div {
+    border-radius: 14px;
+}
+
+/* ---- 优惠骨架 ---- */
+.skeleton-offers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+    margin-top: 24px;
+}
+.sk-offer {
+    height: 220px;
+    border-radius: 18px;
+}
+
+/* ---- 加载失败兜底 ---- */
+.skeleton-fallback {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 16px;
+    color: #6b7280;
+    font-size: 14px;
+}
+.skeleton-fallback i {
+    font-size: 28px;
+    color: #d1d5db;
+    margin-bottom: 8px;
+    display: block;
+}
+.skeleton-fallback p {
+    margin: 0 0 14px;
+}
+.skeleton-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border: 1px solid rgba(181, 138, 85, 0.4);
+    background: #fffdf8;
+    color: var(--color-primary-dark, #0f5249);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background .2s, transform .2s;
+}
+.skeleton-retry:hover {
+    background: #faf6ee;
+    transform: translateY(-1px);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 720px) {
+    .skeleton-env {
+        grid-template-columns: 1fr;
+    }
+    .sk-env-main { height: 240px; }
+    .sk-env-side { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
+    .sk-env-side > div { height: 100px; }
+}
+
+/* ---- 减动画偏好 ---- */
+@media (prefers-reduced-motion: reduce) {
+    .sk-img, .sk-line, .sk-env-main, .sk-env-side > div, .sk-offer {
+        animation: none;
+        background: #f1ece4;
+    }
+}

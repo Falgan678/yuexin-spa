@@ -1,0 +1,31 @@
+# https://www.example.com/robots.txt
+# 部署后请将下方 Sitemap 替换为正式域名
+
+User-agent: *
+Allow: /
+Allow: /static/
+
+# 管理后台与 API 不希望被收录
+Disallow: /static/admin.html
+Disallow: /api/
+Disallow: /docs
+Disallow: /openapi.json
+
+# 主流搜索引擎
+User-agent: Googlebot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: 360Spider
+Allow: /
+
+User-agent: Sogou web spider
+Allow: /
+
+# 站点地图（部署时替换为真实域名）
+Sitemap: https://www.example.com/sitemap.xml
