@@ -19,3 +19,8 @@ output/
 .idea/
 .pytest_cache/
 .ruff_cache/
+
+# 用户上传图片（运行时数据，不进仓库）
+static/uploads/*
+!static/uploads/.gitkeep
+
